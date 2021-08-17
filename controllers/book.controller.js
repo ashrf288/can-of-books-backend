@@ -1,6 +1,14 @@
-const Book=require('../moudle/book.modle');
+const mongoose=require("mongoose")
+
+mongoose.connect('mongodb://localhost:27017/books',{useNewUrlParser: true})
 
 let booksArr=[
+    {
+        title: 'The Great Gatsby',
+        description: ' The story of the mysteriously wealthy Jay Gatsby and his love for the beautiful Daisy Buchanan, of lavish parties on Long Island at a time when The New York Times noted “gin was the national drink and sex the national obsession.',
+        status: 'avialable',
+        email: 'ashrfmathkour@gmail.com'   
+    },
     {
         title: 'Things Fall Apart',
         description: ' Things Fall Apart is the first of three novels in Chinua Achebes critically acclaimed African Trilogy. It is a classic narrative about Africa\'s cataclysmic encounter with Europe as it establishes a colonial presence on the continent.',
@@ -14,20 +22,46 @@ let booksArr=[
         email: 'ashrfmathkour@gmail.com'
     }
 ]
-let bookController=(req,res)=>{
-    const book=booksArr.map(obj=>{
-        return new Book({
-            title: obj.title,
-            description: obj.description ,
-            status: obj.status,
-            email: obj.email  
-        })
 
-    })
+const BookSchema= new mongoose.Schema({
+    title: String,
+    description: String,
+    status: String,
+    email: String
+   })
+
+   const Book=mongoose.model('Book',BookSchema) /// creat collection 
+
+     booksArr.map(book=>{
+         newBooke=new Book(book)
+        //   newBooke.save()
+          
+     })
+
+
+
+     
+
+   
+   
+   
     
+
+
+
+
+let bookController=(req,res)=>{
+
+    Book.find((err,books)=>{
+        if(err){console.log(err)}
+        else{res.json(books)}
+    })
   
-res.json(book)
+
 }
 
 module.exports=bookController
 
+
+
+   
