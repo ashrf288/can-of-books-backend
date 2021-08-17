@@ -8,7 +8,7 @@ const jwksClient = require("jwks-rsa");
 const app = express();
 app.use(cors());
 const PORT = process.env.PORT;
-const mongoose=require("mongoose")
+
 const bookController=require('./controllers/book.controller')
 
 const client = jwksClient({
@@ -22,7 +22,6 @@ const getKey = (header, callback) => {
 };
 
 
-mongoose.connect('mongodb://localhost:27017/books',{useNewUrlParser: true})
 app.get("/",(req,res)=>res.send('hello'))
 app.get("/books",bookController)
 
