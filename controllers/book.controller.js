@@ -1,6 +1,9 @@
-const mongoose=require("mongoose")
+const mongoose=require("mongoose");
+const express=require('express');
+let app=express();
+app.use(express.json())
 
-mongoose.connect('mongodb://localhost:27017/books',{useNewUrlParser: true})
+mongoose.connect('mongodb://localhost:27017/books',{useNewUrlParser: true,useUnifiedTopology: true })
 
 let booksArr=[
     {
@@ -40,13 +43,6 @@ const BookSchema= new mongoose.Schema({
 
 
 
-     
-
-   
-   
-   
-    
-
 
 
 
@@ -56,11 +52,27 @@ let bookController=(req,res)=>{
         if(err){console.log(err)}
         else{res.json(books)}
     })
-  
-
+}
+let createBook= async(req,res)=>{
+     let data=req.body
+    let  newBooke=new Book(data)
+          newBooke.save()
+          res.json('Successful addition')
+          
+}
+let deleteBook=(req,res)=>{
+    
+    let dataa= req.params['_id']
+    console.log(dataa)
+    Book.findByIdAndDelete({ _id:dataa }, function (err,data) {
+        if(err) console.log(err);
+        res.json("Successful deletion");
+      });
 }
 
-module.exports=bookController
+
+
+module.exports={bookController,createBook,deleteBook}
 
 
 

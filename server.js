@@ -7,11 +7,13 @@ const jwt = require("jsonwebtoken");
 const jwksClient = require("jwks-rsa");
 const app = express();
 app.use(cors());
+app.use(express.json())
 const PORT = process.env.PORT;
 
-const bookController=require('./controllers/book.controller')
+const {bookController,createBook,deleteBook}=require('./controllers/book.controller')
 
 const client = jwksClient({
+  // this url comes from your app on the auth0 dashboard 
   jwksUri: `https://${process.env.REACT_APP_AUTH0_DOMAIN}/well/jwks.json`,
 });
 const getKey = (header, callback) => {
@@ -24,6 +26,8 @@ const getKey = (header, callback) => {
 
 app.get("/",(req,res)=>res.send('hello'))
 app.get("/books",bookController)
+app.post("/books/create",createBook)
+app.delete("/books/remove/:_id",deleteBook)
 
 app.get("/test", (request, response) => {
   // TODO:
