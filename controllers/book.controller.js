@@ -81,7 +81,23 @@ let deleteBook = (req, res) => {
   });
 };
 
-module.exports = { bookController, createBook, deleteBook };
+let updateBook=(req, res) => {
+  let id = req.params["id"];
+  let data=req.body
+     console.log(id);
+  Book.findOneAndUpdate({ _id: id },{title:data.title}, function (err, result) {
+    if (err) {
+      console.log(err);
+      res.json(err);
+    } else {
+      console.log("updated");
+      res.json(result);
+  
+    }
+  });
+};
+
+module.exports = { bookController, createBook, deleteBook,updateBook };
 
 // Book.findOneAndDelete({ _id:dataa }, function (err,data) {
 //     if(err) console.log(err);
