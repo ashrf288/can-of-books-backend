@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json())
 const PORT = process.env.PORT;
 
-const {bookController,createBook,deleteBook}=require('./controllers/book.controller')
+const {bookController,createBook,deleteBook,updateBook}=require('./controllers/book.controller')
 
 const client = jwksClient({
   // this url comes from your app on the auth0 dashboard 
@@ -28,6 +28,7 @@ app.get("/",(req,res)=>res.send('hello'))
 app.get("/books",bookController)
 app.post("/books/create",createBook)
 app.delete("/books/remove/:_id",deleteBook)
+app.put("/books/update/:id",updateBook)
 
 app.get("/test", (request, response) => {
   // TODO:
